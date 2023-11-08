@@ -12,12 +12,11 @@ export class PokemonsService {
   constructor(private http: HttpClient) { }
 
   getPokemons(): Observable<any> {
-    return this.http.get(`${this.apiURL}?limit=1017`).pipe(
-      mergeMap((data: any) => {
-        const requests = data.results.map((pokemon: any) => 
+    return this.http.get(`${this.apiURL}?limit=1017`).pipe(mergeMap((data: any) => {
+          const solicitudes = data.results.map((pokemon: any) => 
           this.http.get(pokemon.url)
         );
-        return forkJoin(requests);
+        return forkJoin(solicitudes);
       })
     );
   }
