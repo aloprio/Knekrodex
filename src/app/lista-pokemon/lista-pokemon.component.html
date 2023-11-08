@@ -1,5 +1,8 @@
-<ul>
-    <li *ngFor="let pokemon of pokemonsarray">
-      {{ pokemon.name }}
-    </li>
-  </ul>
+<section class="pokemon-grid">
+  <div class="pokemon-card" *ngFor="let pokemon of pokemonsarray">
+    <img [src]="pokemon.sprites?.front_default" alt="Imagen de {{ pokemon.name }}">
+    <h3>{{ pokemon.name | titlecase }}</h3>
+    <p>#{{ formatPokedexNumber(pokemon.id) }}</p>
+    <p>{{ formatPokemonTypes(pokemon.types) }}</p>
+  </div>
+</section>

@@ -1,0 +1,36 @@
+
+.pokemon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+
+  .pokemon-card {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .pokemon-card img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .pokemon-card h3 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+
+  .pokemon-card p {
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  
+  .pokemon-card p:last-child {
+    font-weight: bold;
+  }
