@@ -1,0 +1,15 @@
+h2 {
+    text-align: center;
+    color: white;
+}
+
+p {
+    text-align: center;
+    color: white;
+}
+
+section {
+    background-color: rgb(70, 69, 69);
+    padding-top: 40px;
+    padding-bottom: 20px;
+}

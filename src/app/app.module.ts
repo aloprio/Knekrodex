@@ -4,11 +4,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CabeceraComponent } from './cabecera/cabecera.component';
+import { PrincipalComponent } from './principal/principal.component';
+import { PiedepaginaComponent } from './piedepagina/piedepagina.component';
+import { ListaPokemonComponent } from './lista-pokemon/lista-pokemon.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CabeceraComponent
+    CabeceraComponent,
+    PrincipalComponent,
+    PiedepaginaComponent,
+    ListaPokemonComponent
   ],
   imports: [
     BrowserModule,
