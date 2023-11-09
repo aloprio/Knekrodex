@@ -49,6 +49,10 @@ section {
     margin-right: 5px;
  }
 
+ .grass{
+  background-color: green;
+ }
+
   .num {
     font-size: 20px;
     margin-bottom: 15px;

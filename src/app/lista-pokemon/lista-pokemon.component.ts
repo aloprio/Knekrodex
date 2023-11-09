@@ -26,9 +26,17 @@ export class ListaPokemonComponent implements OnInit {
     return '';
   }
 
-  formatPokemonTypes(types: any[]): string {
+  formatPokemonTypes(types: string[]): string {
     if (types && types.length > 0) {
-      return types.map(type => type.type.name).join(' ');
+      const typeNames = types.map(type => type.name).join(' ');
+    
+    switch(typeNames){
+      case 'grass':
+        
+        break;
+
+    }
+      return typeNames;
     }
     return '';
   }
