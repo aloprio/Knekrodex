@@ -1,23 +1,37 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin, mergeMap } from 'rxjs';
+import { Observable, forkJoin, map, mergeMap } from 'rxjs';
+import { Pokemon } from './model/pokemon';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PokemonsService {
 
-  private apiURL='https://pokeapi.co/api/v2/pokemon';
+  private apiURL: string ='https://pokeapi.co/api/v2/pokemon';
 
   constructor(private http: HttpClient) { }
 
-  getPokemons(): Observable<any> {
-    return this.http.get(`${this.apiURL}?limit=1017`).pipe(mergeMap((data: any) => {
-          const solicitudes = data.results.map((pokemon: any) => 
-          this.http.get(pokemon.url)
-        );
-        return forkJoin(solicitudes);
-      })
-    );
+  getPokemons(count: number): Observable<Pokemon[]> {
+
+    const peticionesApi: Observable<Pokemon>[] = [];
+    
+    for (let i = 1; i <= count; i++) {
+      const peticion = this.http.get(`${this.apiURL}/${i}`).pipe(
+        map((data: any) => ({
+          image: data.sprites?.front_default,
+          number: this.formatPokedexNumber(data.id),
+          types: data.types.map((tipo: any) => tipo.type.name),
+          name: data.name
+        } as Pokemon))
+      );
+      peticionesApi.push(peticion);
+    }
+
+    return forkJoin(peticionesApi);
+}
+
+  private formatPokedexNumber(id: number): string {
+    return id !== undefined ? id.toString().padStart(3, '0') : '';
   }
 }

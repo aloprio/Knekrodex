@@ -1,10 +1,10 @@
 <section class="pokemon-grid">
   <div class="pokemon-card" *ngFor="let pokemon of pokemonsarray">
-    <img [src]="pokemon.sprites?.front_default" alt="Imagen {{ pokemon.name }}">
+    <img [src]="pokemon.image" alt="Imagen {{ pokemon.name }}">
     <h3>{{ pokemon.name | titlecase }}</h3>
-    <span class="num">Nº {{ formatPokedexNumber(pokemon.id) }}</span>
+    <span class="num">Nº {{ pokemon.number }}</span>
     <div>
-    <span  class="tipos" *ngFor="let type of pokemon.types">{{ type.type.name }}</span>
-  </div>
+      <span class="tipos" *ngFor="let type of pokemon.types">{{ type }}</span>
+    </div>
   </div>
 </section>
