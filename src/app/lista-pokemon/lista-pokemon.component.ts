@@ -20,4 +20,16 @@ export class ListaPokemonComponent implements OnInit {
     });
   }
 
+  getTipos(type: string): string {
+    switch (type) {
+      case 'grass':
+        return 'grass';
+      case 'poison':
+        return 'poison';
+      case 'fire':
+        return 'fire';
+      default:
+        return '';
+    }
+  }
 }

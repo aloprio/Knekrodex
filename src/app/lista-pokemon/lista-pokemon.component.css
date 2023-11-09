@@ -49,8 +49,16 @@ section {
     margin-right: 5px;
  }
 
- .grass{
-  background-color: green;
+ .grass {
+  background-color: rgb(13, 209, 13);
+ }
+
+ .poison {
+  background-color: rgb(214, 21, 214);
+ }
+
+ .fire {
+  background-color: rgb(253, 143, 0);
  }
 
   .num {
