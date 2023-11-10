@@ -29,11 +29,35 @@ export class ListaPokemonComponent implements OnInit {
       case 'fire':
         return 'fire';
       case 'water':
-          return 'water';
+        return 'water';
       case 'normal':
-          return 'normal';
+        return 'normal';
       case 'flying':
-          return 'flying';
+        return 'flying';
+      case 'steel':
+        return 'steel';
+      case 'dragon':
+        return 'dragon';
+      case 'bug':
+        return 'bug';
+      case 'electric':
+        return 'electric';
+      case 'ground':
+        return 'ground';
+      case 'fairy':
+        return 'fairy';
+      case 'fighting':
+        return 'fighting';
+      case 'ice':
+        return 'ice';
+      case 'psychic':
+        return 'psychic';
+      case 'ghost':
+        return 'ghost';
+      case 'rock':
+        return 'rock';
+      case 'dark':
+        return 'dark';
       default:
         return '';
     }
