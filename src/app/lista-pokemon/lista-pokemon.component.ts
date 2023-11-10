@@ -28,6 +28,12 @@ export class ListaPokemonComponent implements OnInit {
         return 'poison';
       case 'fire':
         return 'fire';
+      case 'water':
+          return 'water';
+      case 'normal':
+          return 'normal';
+      case 'flying':
+          return 'flying';
       default:
         return '';
     }
