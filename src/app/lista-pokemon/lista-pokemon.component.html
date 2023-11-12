@@ -1,5 +1,13 @@
+<input type="text" [(ngModel)]="typeSearchTerm" (input)="filterPokemonsByName()" placeholder="Buscar por nombre">
+<select [(ngModel)]="typeSearchTerm" (change)="filterPokemons()">
+  <option value="" selected>Todos los tipos</option>
+  <option value="grass">Grass</option>
+  <option value="poison">Poison</option>
+  <!-- Agrega más opciones para otros tipos -->
+</select>
+
 <section class="pokemon-grid">
-  <div class="pokemon-card" *ngFor="let pokemon of pokemonsarray">
+  <div class="pokemon-card" *ngFor="let pokemon of filteredPokemons">
     <img [src]="pokemon.image" alt="Imagen {{ pokemon.name }}">
     <h3>{{ pokemon.name | titlecase }}</h3>
     <span class="num">Nº {{ pokemon.number }}</span>

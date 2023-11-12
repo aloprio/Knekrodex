@@ -10,12 +10,16 @@ import { Pokemon } from '../model/pokemon';
 export class ListaPokemonComponent implements OnInit {
 
   pokemonsarray: Pokemon[] = [];
+  filteredPokemons: Pokemon[] = [];
+  nameSearchTerm: string = '';
+  typeSearchTerm: string = '';
 
   constructor(private pokemonsService: PokemonsService) {}
 
   ngOnInit(): void {
     this.pokemonsService.getPokemons(1017).subscribe((data: Pokemon[]) => {
       this.pokemonsarray = data;
+      this.filteredPokemons = [...this.pokemonsarray];
       console.log(this.pokemonsarray);
     });
   }
@@ -62,4 +66,18 @@ export class ListaPokemonComponent implements OnInit {
         return '';
     }
   }
+  filterPokemons(): void {
+    this.filteredPokemons = this.pokemonsarray.filter(pokemon => {
+      const nameMatches = pokemon.name.toLowerCase().includes(this.nameSearchTerm.toLowerCase());
+      const typeMatches = !this.typeSearchTerm || pokemon.types.includes(this.typeSearchTerm);
+      return nameMatches && typeMatches;
+    });
+  }
+
+  filterPokemonsByName(): void {
+    this.filteredPokemons = this.pokemonsarray.filter(pokemon =>
+      pokemon.name.toLowerCase().includes(this.typeSearchTerm.toLowerCase())
+    );
+  }
+
 }
