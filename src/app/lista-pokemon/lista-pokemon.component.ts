@@ -10,16 +10,16 @@ import { Pokemon } from '../model/pokemon';
 export class ListaPokemonComponent implements OnInit {
 
   pokemonsarray: Pokemon[] = [];
-  filteredPokemons: Pokemon[] = [];
-  nameSearchTerm: string = '';
-  typeSearchTerm: string = '';
+  pokemonsfiltrados: Pokemon[] = [];
+  busquedaPorNombre: string = '';
+  busquedaPorTipo: string = '';
 
   constructor(private pokemonsService: PokemonsService) {}
 
   ngOnInit(): void {
     this.pokemonsService.getPokemons(1017).subscribe((data: Pokemon[]) => {
       this.pokemonsarray = data;
-      this.filteredPokemons = [...this.pokemonsarray];
+      this.pokemonsfiltrados = [...this.pokemonsarray];
       console.log(this.pokemonsarray);
     });
   }
@@ -66,17 +66,17 @@ export class ListaPokemonComponent implements OnInit {
         return '';
     }
   }
-  filterPokemons(): void {
-    this.filteredPokemons = this.pokemonsarray.filter(pokemon => {
-      const nameMatches = pokemon.name.toLowerCase().includes(this.nameSearchTerm.toLowerCase());
-      const typeMatches = !this.typeSearchTerm || pokemon.types.includes(this.typeSearchTerm);
+  filtroPokemons(): void {
+    this.pokemonsfiltrados = this.pokemonsarray.filter(pokemon => {
+      const nameMatches = pokemon.name.toLowerCase().includes(this.busquedaPorNombre.toLowerCase());
+      const typeMatches = !this.busquedaPorTipo || pokemon.types.includes(this.busquedaPorTipo);
       return nameMatches && typeMatches;
     });
   }
 
-  filterPokemonsByName(): void {
-    this.filteredPokemons = this.pokemonsarray.filter(pokemon =>
-      pokemon.name.toLowerCase().includes(this.typeSearchTerm.toLowerCase())
+  filtroPokemonPorNombre(): void {
+    this.pokemonsfiltrados = this.pokemonsarray.filter(pokemon =>
+      pokemon.name.toLowerCase().includes(this.busquedaPorTipo.toLowerCase())
     );
   }
 
