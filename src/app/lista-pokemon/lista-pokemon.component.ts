@@ -76,7 +76,7 @@ export class ListaPokemonComponent implements OnInit {
 
   filtroPokemonPorNombre(): void {
     this.pokemonsfiltrados = this.pokemonsarray.filter(pokemon =>
-      pokemon.name.toLowerCase().includes(this.busquedaPorTipo.toLowerCase())
+      pokemon.name.toLowerCase().includes(this.busquedaPorNombre.toLowerCase())
     );
   }
 
