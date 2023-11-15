@@ -1,10 +1,15 @@
 <input type="text" [(ngModel)]="busquedaPorNombre" (keyup)="filtroPokemons()" placeholder="Buscar por nombre">
-<select [(ngModel)]="busquedaPorTipo" (change)="filtroPokemons()">
-  <option value="" selected>Todos los tipos</option>
-  <option value="grass">Grass</option>
-  <option value="poison">Poison</option>
-  <option value="flying">Flying</option>
-</select>
+<div>
+  <button [class.selected]="busquedaPorTipo.includes('grass')" (click)="toggleTipos('grass')">Grass</button>
+  <button [class.selected]="busquedaPorTipo.includes('poison')" (click)="toggleTipos('poison')">Poison</button>
+  <button [class.selected]="busquedaPorTipo.includes('fire')" (click)="toggleTipos('fire')">Fire</button>
+</div>
+<div>
+  <button (click)="cambiarFiltroLimitePokemon(151)">Gen 1</button>
+  <button (click)="cambiarFiltroLimitePokemon(251)">Gen 2</button>
+  <button (click)="cambiarFiltroLimitePokemon(386)">Gen 3</button>
+  <button (click)="cambiarFiltroLimitePokemon(493)">Gen 4</button>
+</div>
 
 <section class="pokemon-grid">
   <div class="pokemon-card" *ngFor="let pokemon of pokemonsfiltrados">

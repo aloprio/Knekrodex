@@ -12,15 +12,19 @@ export class ListaPokemonComponent implements OnInit {
   pokemonsarray: Pokemon[] = [];
   pokemonsfiltrados: Pokemon[] = [];
   busquedaPorNombre: string = '';
-  busquedaPorTipo: string = '';
+  busquedaPorTipo: string[] = [];
+  limitePokemonsCargados: number = 1017;
 
   constructor(private pokemonsService: PokemonsService) {}
 
   ngOnInit(): void {
-    this.pokemonsService.getPokemons(1017).subscribe((data: Pokemon[]) => {
+    this.cargarPokemons();
+  }
+
+  cargarPokemons(): void {
+    this.pokemonsService.getPokemons(this.limitePokemonsCargados).subscribe((data: Pokemon[]) => {
       this.pokemonsarray = data;
       this.pokemonsfiltrados = [...this.pokemonsarray];
-      console.log(this.pokemonsarray);
     });
   }
 
@@ -66,10 +70,20 @@ export class ListaPokemonComponent implements OnInit {
         return '';
     }
   }
+
+  toggleTipos(tipo: string): void {
+    if (this.busquedaPorTipo.includes(tipo)) {
+      this.busquedaPorTipo = this.busquedaPorTipo.filter(t => t !== tipo);
+    } else {
+      this.busquedaPorTipo.push(tipo);
+    }
+    this.filtroPokemons();
+  }
+
   filtroPokemons(): void {
     this.pokemonsfiltrados = this.pokemonsarray.filter(pokemon => {
       const nameMatches = pokemon.name.toLowerCase().includes(this.busquedaPorNombre.toLowerCase());
-      const typeMatches = !this.busquedaPorTipo || pokemon.types.includes(this.busquedaPorTipo);
+      const typeMatches = this.busquedaPorTipo.length === 0 || pokemon.types.some(t => this.busquedaPorTipo.includes(t));
       return nameMatches && typeMatches;
     });
   }
@@ -80,4 +94,10 @@ export class ListaPokemonComponent implements OnInit {
     );
   }
 
+  cambiarFiltroLimitePokemon(nuevoLimite: number): void {
+    this.limitePokemonsCargados = nuevoLimite;
+    this.cargarPokemons();
+  }
+
+  
 }
