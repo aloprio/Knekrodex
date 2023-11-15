@@ -12,11 +12,10 @@ export class PokemonsService {
 
   constructor(private http: HttpClient) { }
 
-  getPokemons(count: number): Observable<Pokemon[]> {
-
+  getPokemonsPorGeneracion(limit: number, offset: number): Observable<Pokemon[]> {
     const peticionesApi: Observable<Pokemon>[] = [];
-    
-    for (let i = 1; i <= count; i++) {
+  
+    for (let i = offset + 1; i <= offset + limit; i++) {
       const peticion = this.http.get(`${this.apiURL}/${i}`).pipe(
         map((data: any) => ({
           image: data.sprites?.front_default,
@@ -27,9 +26,9 @@ export class PokemonsService {
       );
       peticionesApi.push(peticion);
     }
-
+  
     return forkJoin(peticionesApi);
-}
+  }
 
   private formatPokedexNumber(id: number): string {
     return id !== undefined ? id.toString().padStart(3, '0') : '';
