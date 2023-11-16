@@ -7,7 +7,7 @@
   <button [class.selected]="busquedaPorTipo.includes('normal')" (click)="toggleTipos('normal')">Normal</button>
   <button [class.selected]="busquedaPorTipo.includes('flying')" (click)="toggleTipos('flying')">Flying</button>
   <button [class.selected]="busquedaPorTipo.includes('steel')" (click)="toggleTipos('steel')">Steel</button>
-  <button [class.selected]="busquedaPorTipo.includes('bug')" (click)="toggleTipos('bug')">Bug</button>
+  <button [class.selected]="busquedaPorTipo.includes('dragon')" (click)="toggleTipos('dragon')">Dragon</button>
   <button [class.selected]="busquedaPorTipo.includes('electric')" (click)="toggleTipos('electric')">Electric</button>
   <button [class.selected]="busquedaPorTipo.includes('ground')" (click)="toggleTipos('ground')">Ground</button>
   <button [class.selected]="busquedaPorTipo.includes('fairy')" (click)="toggleTipos('fairy')">Fairy</button>
@@ -23,6 +23,7 @@
   <button (click)="cambiarFiltroLimitePokemon(251)">Gen 2</button>
   <button (click)="cambiarFiltroLimitePokemon(386)">Gen 3</button>
   <button (click)="cambiarFiltroLimitePokemon(493)">Gen 4</button>
+  <button (click)="cambiarFiltroLimitePokemon(1017)">All</button>
 </div>
 
 <section class="pokemon-grid">

@@ -13,7 +13,7 @@ export class ListaPokemonComponent implements OnInit {
   pokemonsfiltrados: Pokemon[] = [];
   busquedaPorNombre: string = '';
   busquedaPorTipo: string[] = [];
-  limitePokemonsCargados: number = 493;
+  limitePokemonsCargados: number = 1017;
 
   constructor(private pokemonsService: PokemonsService) {}
 
@@ -25,15 +25,17 @@ export class ListaPokemonComponent implements OnInit {
     this.pokemonsService.getPokemonsPorGeneracion(limit, offset).subscribe((data: Pokemon[]) => {
       this.pokemonsarray = data;
       this.pokemonsfiltrados = [...this.pokemonsarray];
+      this.filtroPokemons();
     });
   }
 
   cargarPokemons(): void {
-    this.pokemonsService.getPokemonsPorGeneracion(151, 0).subscribe((data: Pokemon[]) => {
+    this.pokemonsService.getPokemonsPorGeneracion(1017, 0).subscribe((data: Pokemon[]) => {
       this.pokemonsarray = data;
       this.pokemonsfiltrados = [...this.pokemonsarray];
     });
   }
+
 
   getTipos(type: string): string {
     switch (type) {
@@ -82,6 +84,9 @@ export class ListaPokemonComponent implements OnInit {
     if (this.busquedaPorTipo.includes(tipo)) {
       this.busquedaPorTipo = this.busquedaPorTipo.filter(t => t !== tipo);
     } else {
+      if (this.busquedaPorTipo.length === 2) {
+        this.busquedaPorTipo.shift();
+      }
       this.busquedaPorTipo.push(tipo);
     }
     this.filtroPokemons();
@@ -95,35 +100,39 @@ export class ListaPokemonComponent implements OnInit {
     });
   }
 
-  filtroPokemonPorNombre(): void {
-    this.pokemonsfiltrados = this.pokemonsarray.filter(pokemon =>
-      pokemon.name.toLowerCase().includes(this.busquedaPorNombre.toLowerCase())
-    );
-  }
-
   cambiarFiltroLimitePokemon(nuevaGeneracion: number): void {
-    let limit = 0;
-    let offset = 0;
+    let limiteDePokemonsCargados = 0;
+    let inicioPorId = 0;
 
   switch (nuevaGeneracion) {
     case 151:
-      limit = 151;
-      offset = 0;
-      break;
+      limiteDePokemonsCargados = 151;
+      inicioPorId = 0;
+    break;
+
     case 251:
-      limit = 100;
-      offset = 151;
-      break;
+      limiteDePokemonsCargados = 100;
+      inicioPorId = 151;
+    break;
+
     case 386:
-      limit = 135;
-      offset = 251;
-      break;
+      limiteDePokemonsCargados = 135;
+      inicioPorId = 251;
+    break;
+
     case 493:
-      limit = 107;
-      offset = 386;
-      break;
+      limiteDePokemonsCargados = 107;
+      inicioPorId = 386;
+    break;
+
+    case 1017:
+      limiteDePokemonsCargados = 1017;
+      inicioPorId = 0;
+    break;    
   }
-  this.cargarPokemonsPorGeneracion(limit, offset);
+  
+  this.cargarPokemonsPorGeneracion(limiteDePokemonsCargados, inicioPorId);
+  
   }
   
 }
