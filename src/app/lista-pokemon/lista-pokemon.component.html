@@ -1,30 +1,30 @@
 <input type="text" [(ngModel)]="busquedaPorNombre" (keyup)="filtroPokemons()" placeholder="Buscar por nombre">
-<div>
-  <button [class.selected]="busquedaPorTipo.includes('grass')" (click)="toggleTipos('grass')">Grass</button>
-  <button [class.selected]="busquedaPorTipo.includes('poison')" (click)="toggleTipos('poison')">Poison</button>
-  <button [class.selected]="busquedaPorTipo.includes('fire')" (click)="toggleTipos('fire')">Fire</button>
-  <button [class.selected]="busquedaPorTipo.includes('water')" (click)="toggleTipos('water')">Water</button>
-  <button [class.selected]="busquedaPorTipo.includes('normal')" (click)="toggleTipos('normal')">Normal</button>
-  <button [class.selected]="busquedaPorTipo.includes('flying')" (click)="toggleTipos('flying')">Flying</button>
-  <button [class.selected]="busquedaPorTipo.includes('steel')" (click)="toggleTipos('steel')">Steel</button>
-  <button [class.selected]="busquedaPorTipo.includes('dragon')" (click)="toggleTipos('dragon')">Dragon</button>
-  <button [class.selected]="busquedaPorTipo.includes('electric')" (click)="toggleTipos('electric')">Electric</button>
-  <button [class.selected]="busquedaPorTipo.includes('ground')" (click)="toggleTipos('ground')">Ground</button>
-  <button [class.selected]="busquedaPorTipo.includes('fairy')" (click)="toggleTipos('fairy')">Fairy</button>
-  <button [class.selected]="busquedaPorTipo.includes('fighting')" (click)="toggleTipos('fighting')">Fighting</button>
-  <button [class.selected]="busquedaPorTipo.includes('ice')" (click)="toggleTipos('ice')">Ice</button>
-  <button [class.selected]="busquedaPorTipo.includes('psychic')" (click)="toggleTipos('psychic')">Psychic</button>
-  <button [class.selected]="busquedaPorTipo.includes('ghost')" (click)="toggleTipos('ghost')">Ghost</button>
-  <button [class.selected]="busquedaPorTipo.includes('rock')" (click)="toggleTipos('rock')">Rock</button>
-  <button [class.selected]="busquedaPorTipo.includes('dark')" (click)="toggleTipos('dark')">Dark</button>
-</div>
-<div>
-  <button (click)="cambiarFiltroLimitePokemon(151)">Gen 1</button>
-  <button (click)="cambiarFiltroLimitePokemon(251)">Gen 2</button>
-  <button (click)="cambiarFiltroLimitePokemon(386)">Gen 3</button>
-  <button (click)="cambiarFiltroLimitePokemon(493)">Gen 4</button>
-  <button (click)="cambiarFiltroLimitePokemon(1017)">All</button>
-</div>
+<ul class="listaTiposSeleccion">
+  <li><button class="grass" [class.selected]="busquedaPorTipo.includes('grass')" (click)="toggleTipos('grass')">Grass</button></li>
+  <li><button class="poison" [class.selected]="busquedaPorTipo.includes('poison')" (click)="toggleTipos('poison')">Poison</button></li>
+  <li><button class="fire" [class.selected]="busquedaPorTipo.includes('fire')" (click)="toggleTipos('fire')">Fire</button></li>
+  <li><button class="water" [class.selected]="busquedaPorTipo.includes('water')" (click)="toggleTipos('water')">Water</button></li>
+  <li><button class="normal" [class.selected]="busquedaPorTipo.includes('normal')" (click)="toggleTipos('normal')">Normal</button></li>
+  <li><button class="flying" [class.selected]="busquedaPorTipo.includes('flying')" (click)="toggleTipos('flying')">Flying</button></li>
+  <li><button class="steel" [class.selected]="busquedaPorTipo.includes('steel')" (click)="toggleTipos('steel')">Steel</button></li>
+  <li><button class="dragon" [class.selected]="busquedaPorTipo.includes('dragon')" (click)="toggleTipos('dragon')">Dragon</button></li>
+  <li><button class="electric" [class.selected]="busquedaPorTipo.includes('electric')" (click)="toggleTipos('electric')">Electric</button></li>
+  <li><button class="ground" [class.selected]="busquedaPorTipo.includes('ground')" (click)="toggleTipos('ground')">Ground</button></li>
+  <li><button class="fairy" [class.selected]="busquedaPorTipo.includes('fairy')" (click)="toggleTipos('fairy')">Fairy</button></li>
+  <li><button class="fighting" [class.selected]="busquedaPorTipo.includes('fighting')" (click)="toggleTipos('fighting')">Fighting</button></li>
+  <li><button class="ice" [class.selected]="busquedaPorTipo.includes('ice')" (click)="toggleTipos('ice')">Ice</button></li>
+  <li><button class="psychic" [class.selected]="busquedaPorTipo.includes('psychic')" (click)="toggleTipos('psychic')">Psychic</button></li>
+  <li><button class="ghost" [class.selected]="busquedaPorTipo.includes('ghost')" (click)="toggleTipos('ghost')">Ghost</button></li>
+  <li><button class="rock" [class.selected]="busquedaPorTipo.includes('rock')" (click)="toggleTipos('rock')">Rock</button></li>
+  <li><button class="dark" [class.selected]="busquedaPorTipo.includes('dark')" (click)="toggleTipos('dark')">Dark</button></li>
+</ul>
+<ul class="listaGeneracionSeleccion">
+  <li><button (click)="cambiarFiltroLimitePokemon(151)">Gen 1</button></li>
+  <li><button (click)="cambiarFiltroLimitePokemon(251)">Gen 2</button></li>
+  <li><button (click)="cambiarFiltroLimitePokemon(386)">Gen 3</button></li>
+  <li><button (click)="cambiarFiltroLimitePokemon(493)">Gen 4</button></li>
+  <li><button (click)="cambiarFiltroLimitePokemon(1017)">All</button></li>
+</ul>
 
 <section class="pokemon-grid">
   <div class="pokemon-card" *ngFor="let pokemon of pokemonsfiltrados">
