@@ -28,8 +28,9 @@
 </ul>
 
 <section class="pokemon-grid">
-  <div class="pokemon-card" *ngFor="let pokemon of pokemonsfiltrados" (click)="mostrarDetalles(pokemon.id)">
-    <img [src]="pokemon.image" alt="Imagen {{ pokemon.name }}">
+  <div class="pokemon-card" *ngFor="let pokemon of pokemonsfiltrados" (click)="verDetalles(+pokemon.number)" (mouseover)="cargarSpriteAnimado(pokemon)"
+  (mouseout)="cargarSpriteEstatico(pokemon)">
+    <img [src]="pokemon.animatedSprite || pokemon.image" alt="Imagen {{ pokemon.name }}">
     <h3>{{ pokemon.name | titlecase }}</h3>
     <span class="num">Nº {{ pokemon.number }}</span>
     <div>

@@ -1,4 +1,23 @@
-<div *ngIf="pokemon">
+<div *ngIf="pokemon" class="pokemon-details">
+  <section class="image-text-container">
+    <img [src]="pokemon.animatedSprite || pokemon.image" alt="Imagen {{ pokemon.name }}">
+  <div class="details-container">
     <h2>{{ pokemon.name | titlecase }}</h2>
-    <p>Number: {{ pokemon.number }}</p>
+    <p>Pokedex number: {{ pokemon.number }}</p>
+    <div>
+      <p>Type:</p>
+      <span class="tipos {{getTipos(type)}}" *ngFor="let type of pokemon.types">{{ type }}</span>
+    </div>
+    <p>Weight: {{ pokemon.weight }} kg</p>
+    <p>Height: {{ pokemon.height }} m</p>
+    <p>Description: {{ pokemon.description }}</p>
   </div>
+  </section>
+  <section class="pokemon-extra-info">
+    <div class="stats-table">
+      <div *ngFor="let stat of pokemon.stats">
+      <p>{{ stat.name }}: {{ stat.value }}</p>
+      </div>
+    </div>
+  </section>
+</div>

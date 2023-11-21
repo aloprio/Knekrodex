@@ -37,11 +37,18 @@ export class ListaPokemonComponent implements OnInit {
     });
   }
 
-  mostrarDetalles(id: number): void {
-    console.log('ID:', id);
-    if (id !== undefined) {
-      this.router.navigate(['/details', id]);
-    }
+  cargarSpriteAnimado(pokemon: Pokemon): void {
+    this.pokemonsService.getPokemonSpriteAnimado(+pokemon.number).subscribe((animatedSprite) => {
+      pokemon.animatedSprite = animatedSprite!;
+    });
+  }
+
+  cargarSpriteEstatico(pokemon: Pokemon): void {
+    pokemon.animatedSprite = null;
+  }
+
+  verDetalles(id: number) {
+    this.router.navigate(['/detalles', id]);
   }
 
   getTipos(type: string): string {
