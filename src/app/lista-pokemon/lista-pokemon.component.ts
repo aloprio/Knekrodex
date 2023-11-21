@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PokemonsService } from '../pokemons.service';
 import { Pokemon } from '../model/pokemon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-pokemon',
@@ -15,7 +16,7 @@ export class ListaPokemonComponent implements OnInit {
   busquedaPorTipo: string[] = [];
   limitePokemonsCargados: number = 1017;
 
-  constructor(private pokemonsService: PokemonsService) {}
+  constructor(private router: Router, private pokemonsService: PokemonsService) {}
 
   ngOnInit(): void {
     this.cargarPokemons();
@@ -36,6 +37,12 @@ export class ListaPokemonComponent implements OnInit {
     });
   }
 
+  mostrarDetalles(id: number): void {
+    console.log('ID:', id);
+    if (id !== undefined) {
+      this.router.navigate(['/details', id]);
+    }
+  }
 
   getTipos(type: string): string {
     switch (type) {

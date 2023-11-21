@@ -51,23 +51,75 @@ section {
  }
 
  .grass {
-  background-color: 	#00FF00;
+  background-color: 	#7AC74C;
  }
 
  .poison {
-  background-color:	#FF00FF;
+  background-color:	#A33EA1;
  }
 
  .fire {
-  background-color: #FF0000;
+  background-color: #EE8130;
  }
 
  .water {
-  background-color: #00FFFF;
+  background-color: #6390F0;
  }
 
  .normal {
-  background-color: #D3D3D3;
+  background-color: #A8A77A;
+ }
+
+ .electric {
+  background-color: #F7D02C;
+ }
+
+ .ice {
+  background-color: #96D9D6;
+ }
+
+ .flying {
+  background-color: #A98FF3;
+ }
+
+ .steel {
+  background-color: #B7B7CE;
+ }
+
+ .dragon {
+  background-color: #6F35FC;
+ }
+
+ .ground {
+  background-color: #E2BF65;
+ }
+
+ .fairy {
+  background-color: #D685AD;
+ }
+
+ .bug {
+  background-color: #A6B91A;
+ }
+
+ .fighting {
+  background-color: #C22E28;
+ }
+
+ .psychic {
+  background-color: #F95587;
+ }
+
+ .ghost {
+  background-color: #735797;
+ }
+
+ .rock {
+  background-color: #B6A136;
+ }
+
+ .dark {
+  background-color: #705746;
  }
 
   .num {

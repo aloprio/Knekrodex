@@ -8,6 +8,7 @@
   <li><button class="flying" [class.selected]="busquedaPorTipo.includes('flying')" (click)="toggleTipos('flying')">Flying</button></li>
   <li><button class="steel" [class.selected]="busquedaPorTipo.includes('steel')" (click)="toggleTipos('steel')">Steel</button></li>
   <li><button class="dragon" [class.selected]="busquedaPorTipo.includes('dragon')" (click)="toggleTipos('dragon')">Dragon</button></li>
+  <li><button class="bug" [class.selected]="busquedaPorTipo.includes('bug')" (click)="toggleTipos('bug')">Bug</button></li>
   <li><button class="electric" [class.selected]="busquedaPorTipo.includes('electric')" (click)="toggleTipos('electric')">Electric</button></li>
   <li><button class="ground" [class.selected]="busquedaPorTipo.includes('ground')" (click)="toggleTipos('ground')">Ground</button></li>
   <li><button class="fairy" [class.selected]="busquedaPorTipo.includes('fairy')" (click)="toggleTipos('fairy')">Fairy</button></li>
@@ -27,7 +28,7 @@
 </ul>
 
 <section class="pokemon-grid">
-  <div class="pokemon-card" *ngFor="let pokemon of pokemonsfiltrados">
+  <div class="pokemon-card" *ngFor="let pokemon of pokemonsfiltrados" (click)="mostrarDetalles(pokemon.id)">
     <img [src]="pokemon.image" alt="Imagen {{ pokemon.name }}">
     <h3>{{ pokemon.name | titlecase }}</h3>
     <span class="num">Nº {{ pokemon.number }}</span>

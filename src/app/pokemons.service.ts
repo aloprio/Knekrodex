@@ -30,6 +30,18 @@ export class PokemonsService {
     return forkJoin(peticionesApi);
   }
 
+  getPokemonsId(id: number): Observable<Pokemon> {
+    return this.http.get(`${this.apiURL}/${id}`).pipe(
+      map((data: any) => ({
+        id: data.id,
+        image: data.sprites?.front_default,
+        number: this.formatPokedexNumber(data.id),
+        types: data.types.map((tipo: any) => tipo.type.name),
+        name: data.name
+      } as Pokemon))
+    );
+  }
+
   private formatPokedexNumber(id: number): string {
     return id !== undefined ? id.toString().padStart(3, '0') : '';
   }

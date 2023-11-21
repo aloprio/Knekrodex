@@ -9,6 +9,7 @@ import { CabeceraComponent } from './cabecera/cabecera.component';
 import { PrincipalComponent } from './principal/principal.component';
 import { PiedepaginaComponent } from './piedepagina/piedepagina.component';
 import { ListaPokemonComponent } from './lista-pokemon/lista-pokemon.component';
+import { DetallesPokemonComponent } from './detalles-pokemon/detalles-pokemon.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ListaPokemonComponent } from './lista-pokemon/lista-pokemon.component';
     CabeceraComponent,
     PrincipalComponent,
     PiedepaginaComponent,
-    ListaPokemonComponent
+    ListaPokemonComponent,
+    DetallesPokemonComponent
   ],
   imports: [
     BrowserModule,
