@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PokemonsService } from '../pokemons.service';
 import { Pokemon } from '../model/pokemon';
 import { Router } from '@angular/router';
+import { tipoService } from '../tipo.servise';
 
 @Component({
   selector: 'app-lista-pokemon',
@@ -15,11 +16,13 @@ export class ListaPokemonComponent implements OnInit {
   busquedaPorNombre: string = '';
   busquedaPorTipo: string[] = [];
   limitePokemonsCargados: number = 1017;
+  debilidadesFortalezas: any = {};
 
-  constructor(private router: Router, private pokemonsService: PokemonsService) {}
+  constructor(private router: Router, private pokemonsService: PokemonsService, private tipoService: tipoService) {}
 
   ngOnInit(): void {
     this.cargarPokemons();
+    this.cargarDebilidadesYFortalezas();
   }
 
   cargarPokemonsPorGeneracion(limit: number, offset: number): void {
@@ -34,6 +37,12 @@ export class ListaPokemonComponent implements OnInit {
     this.pokemonsService.getPokemonsPorGeneracion(1017, 0).subscribe((data: Pokemon[]) => {
       this.pokemonsarray = data;
       this.pokemonsfiltrados = [...this.pokemonsarray];
+    });
+  }
+
+  cargarDebilidadesYFortalezas(): void {
+    this.tipoService.getDebilidadesFortalezas().subscribe((data) => {
+      this.debilidadesFortalezas = data;
     });
   }
 
@@ -148,5 +157,10 @@ export class ListaPokemonComponent implements OnInit {
   this.cargarPokemonsPorGeneracion(limiteDePokemonsCargados, inicioPorId);
   
   }
-  
+  getDebilidades(type: string): string[] {
+    return this.debilidadesFortalezas[type] ? this.debilidadesFortalezas[type].x2 : [];
+  }
+  getFortalezas(type: string): string[] {
+    return this.debilidadesFortalezas[type] ? this.debilidadesFortalezas[type]['x0.5'] : [];
+  }
 }
