@@ -52,7 +52,13 @@ img {
     background-color: white;
 }
 
+.type-table li{
+    padding: 25px;
+}
 
+.type-table td{
+    padding: 25px;
+}
 
 .tipos {
     margin-top: 3%;

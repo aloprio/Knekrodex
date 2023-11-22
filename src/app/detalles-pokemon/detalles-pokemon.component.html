@@ -20,12 +20,13 @@
       </div>
     </div>
   </section>
-  <table>
+  <table class="type-table">
     <thead>
       <tr>
         <th>Type</th>
+        <th>Strength</th>
         <th>Weakness</th>
-        <th>Stregnth</th>
+        <th>Inmune</th>
       </tr>
     </thead>
     <tbody>
@@ -41,6 +42,11 @@
             <li *ngFor="let fortaleza of getFortalezas(type)">{{ fortaleza }}</li>
           </ul>
         </td>
+        <td>
+            <ul>
+              <li *ngFor="let inmunidad of getInmunidad(type)">{{ inmunidad }}</li>
+            </ul>
+          </td>
       </tr>
     </tbody>
   </table>

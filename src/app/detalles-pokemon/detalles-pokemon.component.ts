@@ -48,6 +48,10 @@ export class DetallesPokemonComponent {
     return this.debilidadesFortalezas[type] ? this.debilidadesFortalezas[type]['x0.5'] : [];
   }
 
+  getInmunidad(type: string): string[] {
+    return this.debilidadesFortalezas[type] ? this.debilidadesFortalezas[type].x0 : [];
+  }
+
   getTipos(type: string): string {
     switch (type) {
       case 'grass':
