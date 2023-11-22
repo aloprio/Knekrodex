@@ -61,6 +61,12 @@ export class PokemonsService {
     );
   }
 
+  getPokemonSpriteAnimadoShiny(id: number): Observable<string> {
+    return this.http.get(`${this.apiURL}/${id}`).pipe(
+      map((data: any) => data.sprites.versions['generation-v']['black-white'].animated.front_shiny)
+    );
+  }
+
   private formatPokedexNumber(id: number): string {
     return id !== undefined ? id.toString().padStart(3, '0') : '';
   }

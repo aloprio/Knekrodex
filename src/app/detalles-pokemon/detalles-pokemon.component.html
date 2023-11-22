@@ -1,6 +1,6 @@
 <div *ngIf="pokemon" class="pokemon-details">
   <section class="image-text-container">
-    <img [src]="pokemon.animatedSprite || pokemon.image" alt="Imagen {{ pokemon.name }}">
+    <img [src]="pokemon.animatedSprite || pokemon.image" (click)="cargarSpriteAnimadoShiny()" alt="Imagen {{ pokemon.name }}">
   <div class="details-container">
     <h2>{{ pokemon.name | titlecase }}</h2>
     <p>Pokedex number: {{ pokemon.number }}</p>

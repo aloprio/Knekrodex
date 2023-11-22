@@ -12,6 +12,7 @@ import { tipoService } from '../tipo.servise';
 export class DetallesPokemonComponent {
   pokemon: Pokemon | undefined;
   debilidadesFortalezas: any = {};
+  isShiny = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,6 +34,26 @@ export class DetallesPokemonComponent {
       }
     });
     this.cargarDebilidadesYFortalezas();
+  }
+
+  cargarSpriteAnimadoShiny(): void {
+    if (this.pokemon) {
+      const id = +this.pokemon.number;
+      if (this.isShiny) {
+        this.pokemonsService.getPokemonSpriteAnimado(id).subscribe((animatedSprite) => {
+          if (this.pokemon) {
+          this.pokemon.animatedSprite = animatedSprite!;
+          }
+        });
+      } else {
+        this.pokemonsService.getPokemonSpriteAnimadoShiny(id).subscribe((animatedSpriteShiny) => {
+          if (this.pokemon){
+          this.pokemon.animatedSprite = animatedSpriteShiny!;
+          }
+        });
+      }
+      this.isShiny = !this.isShiny;
+    }
   }
 
   cargarDebilidadesYFortalezas(): void {

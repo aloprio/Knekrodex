@@ -1,6 +1,7 @@
 export interface Pokemon {
     image: string | null | undefined;
     animatedSprite?: string | null | undefined;
+    animatedSpriteShiny?: string | null | undefined;
     number: string;
     types: string[];
     name: string;

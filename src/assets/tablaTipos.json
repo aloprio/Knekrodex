@@ -94,6 +94,7 @@
     "flying":{
         "x2":["bug","fighting","plant"],
         "x1":["water","dragon","ghost","fire","fairy","ice","normal","psychic","dark","ground","poison","flying"],
-        "x0.5":["steel","electric","rock"]
+        "x0.5":["steel","electric","rock"],
+        "x0": ["ground"]
     }
 }

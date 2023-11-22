@@ -4,7 +4,7 @@
     align-items: center;
     margin-top: 20px;
     font-family:courier,arial,helvetica;
-    background-color: rgb(172, 172, 172);
+    background-color: rgb(228, 226, 226);
   }
   
 .image-text-container {
@@ -50,6 +50,10 @@ img {
     border-radius: 5%;
     padding: 25px;
     background-color: white;
+}
+
+ul li {
+    list-style: none;
 }
 
 .type-table li{
