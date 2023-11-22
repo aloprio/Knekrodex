@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Pokemon } from '../model/pokemon';
 import { ActivatedRoute } from '@angular/router';
 import { PokemonsService } from '../pokemons.service';
+import { tipoService } from '../tipo.servise';
 
 @Component({
   selector: 'app-detalles-pokemon',
@@ -10,10 +11,12 @@ import { PokemonsService } from '../pokemons.service';
 })
 export class DetallesPokemonComponent {
   pokemon: Pokemon | undefined;
+  debilidadesFortalezas: any = {};
 
   constructor(
     private route: ActivatedRoute,
-    private pokemonsService: PokemonsService
+    private pokemonsService: PokemonsService,
+    private tipoService: tipoService
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +32,20 @@ export class DetallesPokemonComponent {
         });
       }
     });
+    this.cargarDebilidadesYFortalezas();
+  }
+
+  cargarDebilidadesYFortalezas(): void {
+    this.tipoService.getDebilidadesFortalezas().subscribe((data) => {
+      this.debilidadesFortalezas = data;
+    });
+  }
+  
+  getDebilidades(type: string): string[] {
+    return this.debilidadesFortalezas[type] ? this.debilidadesFortalezas[type].x2 : [];
+  }
+  getFortalezas(type: string): string[] {
+    return this.debilidadesFortalezas[type] ? this.debilidadesFortalezas[type]['x0.5'] : [];
   }
 
   getTipos(type: string): string {

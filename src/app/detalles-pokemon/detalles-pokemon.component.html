@@ -20,4 +20,28 @@
       </div>
     </div>
   </section>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Weakness</th>
+        <th>Stregnth</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let type of pokemon.types">
+        <td>{{ type }}</td>
+        <td>
+          <ul>
+            <li *ngFor="let debilidad of getDebilidades(type)">{{ debilidad }}</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li *ngFor="let fortaleza of getFortalezas(type)">{{ fortaleza }}</li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

@@ -16,13 +16,12 @@ export class ListaPokemonComponent implements OnInit {
   busquedaPorNombre: string = '';
   busquedaPorTipo: string[] = [];
   limitePokemonsCargados: number = 1017;
-  debilidadesFortalezas: any = {};
+  
 
-  constructor(private router: Router, private pokemonsService: PokemonsService, private tipoService: tipoService) {}
+  constructor(private router: Router, private pokemonsService: PokemonsService) {}
 
   ngOnInit(): void {
     this.cargarPokemons();
-    this.cargarDebilidadesYFortalezas();
   }
 
   cargarPokemonsPorGeneracion(limit: number, offset: number): void {
@@ -40,11 +39,7 @@ export class ListaPokemonComponent implements OnInit {
     });
   }
 
-  cargarDebilidadesYFortalezas(): void {
-    this.tipoService.getDebilidadesFortalezas().subscribe((data) => {
-      this.debilidadesFortalezas = data;
-    });
-  }
+  
 
   cargarSpriteAnimado(pokemon: Pokemon): void {
     this.pokemonsService.getPokemonSpriteAnimado(+pokemon.number).subscribe((animatedSprite) => {
@@ -157,10 +152,5 @@ export class ListaPokemonComponent implements OnInit {
   this.cargarPokemonsPorGeneracion(limiteDePokemonsCargados, inicioPorId);
   
   }
-  getDebilidades(type: string): string[] {
-    return this.debilidadesFortalezas[type] ? this.debilidadesFortalezas[type].x2 : [];
-  }
-  getFortalezas(type: string): string[] {
-    return this.debilidadesFortalezas[type] ? this.debilidadesFortalezas[type]['x0.5'] : [];
-  }
+  
 }

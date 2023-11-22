@@ -12,6 +12,6 @@ private apiURL: string ='https://pokeapi.co/api/v2/pokemon';
 constructor(private http: HttpClient) { }
 
 getDebilidadesFortalezas(): Observable<any> {
-    return this.http.get('ruta/al/json/de/debilidades/fortalezas.json');
+    return this.http.get('assets/tablaTipos.json');
   }
 }
