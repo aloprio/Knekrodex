@@ -1,31 +1,38 @@
 {
     "fire":{
         "x2":["grass","bug","steel","ice"],
+        "x1":["electric","ghost","fairy","fighting","normal","psychic","dark","ground","poison","flying"],
         "x0.5":["water","dragon","fire","rock"]
     },
     "water":{
         "x2":["fire","rock","ground"],
+        "x1":["steel","bug","electric","ghost","fairy","ice","fighting","normal","psychic","dark","poison","flying"],
         "x0.5":["water","plant","dragon"]
     },
     "plant":{
         "x2":["water","rock","ground"],
+        "x1":["electric","ghost","fairy","ice","fighting","normal","psychic","dark"],
         "x0.5":["steel","bug","dragon","fire","plant","poison","flying"]
     },
     "steel":{
         "x2":["fairy","ice","rock"],
+        "x1":["bug","dragon","ghost","fighting","normal","plant","dark","ground","poison","flying"],
         "x0.5":["steel","water","electric","fire"]
     },
     "bug":{
         "x2":["plant","psychic","dark"],
+        "x1":["water","bug","dragon","electric","ice","normal","rock","ground"],
         "x0.5":["steel","ghost","fire","fairy","figthing","poison","flying"]
     },
     "dragon":{
         "x2":["dragon"],
+        "x1":["water","bug","electric","ghost","fire","ice","fighting","normal","plant","psychic","rock","dark","ground","poison","flying"],
         "x0.5":["steel"],
         "x0":["fairy"]
     },
     "electric":{
         "x2":["water","flying"],
+        "x1":["steel","bug","ghost","fire","fairy","ice","fighting","normal","psychic","rock","dark","poison"],
         "x0.5":["dragon","electric","plant"],
         "x0":["ground"]
     },
