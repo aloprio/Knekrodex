@@ -9,7 +9,7 @@
         "x1":["steel","bug","electric","ghost","fairy","ice","fighting","normal","psychic","dark","poison","flying"],
         "x0.5":["water","plant","dragon"]
     },
-    "plant":{
+    "grass":{
         "x2":["water","rock","ground"],
         "x1":["electric","ghost","fairy","ice","fighting","normal","psychic","dark"],
         "x0.5":["steel","bug","dragon","fire","plant","poison","flying"]

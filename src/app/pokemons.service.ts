@@ -72,7 +72,7 @@ export class PokemonsService {
                 categoryMove: moveDetails.damage_class.name,
                 powerMove: moveDetails.power,
                 accuracyMove: moveDetails.accuracy,
-                levelMove: move.version_group_details[0].level
+                levelMove: move.version_group_details[0].level_learned_at
               } as PokemonMovimientos;
             })
           )
