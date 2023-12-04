@@ -19,4 +19,5 @@ export interface Pokemon {
     categoryMove: string;
     powerMove: number;
     accuracyMove: number;
+    levelMove: number;
   }

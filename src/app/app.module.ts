@@ -10,6 +10,8 @@ import { PrincipalComponent } from './principal/principal.component';
 import { PiedepaginaComponent } from './piedepagina/piedepagina.component';
 import { ListaPokemonComponent } from './lista-pokemon/lista-pokemon.component';
 import { DetallesPokemonComponent } from './detalles-pokemon/detalles-pokemon.component';
+import { FiltroMovimientosPorNivelPipe } from './filtro-movimientos-por-nivel.pipe';
+import { FiltroMovimientoPorMTMOPipe } from './filtro-movimiento-por-mtmo.pipe';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { DetallesPokemonComponent } from './detalles-pokemon/detalles-pokemon.co
     PrincipalComponent,
     PiedepaginaComponent,
     ListaPokemonComponent,
-    DetallesPokemonComponent
+    DetallesPokemonComponent,
+    FiltroMovimientosPorNivelPipe,
+    FiltroMovimientoPorMTMOPipe
   ],
   imports: [
     BrowserModule,

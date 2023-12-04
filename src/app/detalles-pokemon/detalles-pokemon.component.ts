@@ -26,11 +26,18 @@ export class DetallesPokemonComponent {
     this.pokemonsService.getPokemonUnico(id).subscribe((pokemon) => {
       if (pokemon) {
         this.pokemon = pokemon;
+
         this.pokemonsService.getPokemonSpriteAnimado(id).subscribe((animatedSprite) => {
           if (this.pokemon) {
             this.pokemon.animatedSprite = animatedSprite!;
           }
-        this.pokemonsService.getPokemonMovimientos(id).subscribe((moves) => {
+
+        this.pokemonsService.getPokemonMovimientosPorNivel(id).subscribe((moves) => {
+          if (this.pokemon)
+          this.pokemon.moves = moves;
+          });
+
+        this.pokemonsService.getPokemonMovimientosPorMTMO(id).subscribe((moves) => {
           if (this.pokemon)
           this.pokemon.moves = moves;
           });

@@ -22,28 +22,53 @@
   </section>
   <section class="moves-container">
     <h3>Moves:</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Learning method</th>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Category</th>
-          <th>Power</th>
-          <th>Accuracy</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let move of pokemon.moves">
-          <td>{{ move.methodMove }}</td>
-          <td>{{ move.nameMove }}</td>
-          <td>{{ move.typeMove }}</td>
-          <td>{{ move.categoryMove }}</td>
-          <td>{{ move.powerMove }}</td>
-          <td>{{ move.accuracyMove }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <h3>Moves by level</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Level</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Category</th>
+        <th>Power</th>
+        <th>Accuracy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let move of pokemon.moves | filtroMovimientosPorNivel">
+        <td>{{ move.levelMove }}</td>
+        <td>{{ move.nameMove }}</td>
+        <td>{{ move.typeMove }}</td>
+        <td>{{ move.categoryMove }}</td>
+        <td>{{ move.powerMove }}</td>
+        <td>{{ move.accuracyMove }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Movimientos por MT/MO</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>TM/OM</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Category</th>
+        <th>Power</th>
+        <th>Accuracy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let move of pokemon.moves | filtroMovimientoPorMTMO">
+        <td>{{ move.methodMove }}</td>
+        <td>{{ move.nameMove }}</td>
+        <td>{{ move.typeMove }}</td>
+        <td>{{ move.categoryMove }}</td>
+        <td>{{ move.powerMove }}</td>
+        <td>{{ move.accuracyMove }}</td>
+      </tr>
+    </tbody>
+  </table>
   </section>
   <table class="type-table">
     <thead>
