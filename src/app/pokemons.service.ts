@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin, map, mergeMap } from 'rxjs';
-import { Pokemon } from './model/pokemon';
+import { Pokemon, PokemonMovimientos } from './model/pokemon';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +51,31 @@ export class PokemonsService {
             return pokemon;
           })
         );
+      })
+    );
+  }
+
+  getPokemonMovimientos(id: number): Observable<PokemonMovimientos[]> {
+    return this.http.get(`https://pokeapi.co/api/v2/pokemon/${id}`).pipe(
+      mergeMap((data: any) => {
+        console.log('Datos del Pokémon:', data);
+        const movimientosDatos = data.moves;
+        const movimientosSolicitudes: Observable<PokemonMovimientos>[] = movimientosDatos.map((move: any) =>
+          this.http.get(move.move.url).pipe(
+            map((moveDetails: any) => {
+              console.log('Detalles del movimiento:', moveDetails);
+              return {
+                methodMove: move.version_group_details[0].move_learn_method.name,
+                nameMove: moveDetails.name,
+                typeMove: moveDetails.type.name,
+                categoryMove: moveDetails.damage_class.name,
+                powerMove: moveDetails.power,
+                accuracyMove: moveDetails.accuracy,
+              } as PokemonMovimientos;
+            })
+          )
+        );
+        return forkJoin(movimientosSolicitudes);
       })
     );
   }

@@ -9,4 +9,14 @@ export interface Pokemon {
     height: number;
     description: string;
     stats: { name: string; value: number; }[];
+    moves: PokemonMovimientos[];
+  }
+
+  export interface PokemonMovimientos {
+    methodMove: string;
+    nameMove: string;
+    typeMove: string;
+    categoryMove: string;
+    powerMove: number;
+    accuracyMove: number;
   }

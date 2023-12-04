@@ -30,6 +30,10 @@ export class DetallesPokemonComponent {
           if (this.pokemon) {
             this.pokemon.animatedSprite = animatedSprite!;
           }
+        this.pokemonsService.getPokemonMovimientos(id).subscribe((moves) => {
+          if (this.pokemon)
+          this.pokemon.moves = moves;
+          });
         });
       }
     });
