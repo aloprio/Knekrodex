@@ -13,6 +13,7 @@ export class DetallesPokemonComponent {
   pokemon: Pokemon | undefined;
   debilidadesFortalezas: any = {};
   isShiny = false;
+  evolutionChain: Pokemon[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -26,7 +27,7 @@ export class DetallesPokemonComponent {
     this.pokemonsService.getPokemonUnico(id).subscribe((pokemon) => {
       if (pokemon) {
         this.pokemon = pokemon;
-
+        console.log('Pokemon:', this.pokemon);
         this.pokemonsService.getPokemonSpriteAnimado(id).subscribe((animatedSprite) => {
           if (this.pokemon) {
             this.pokemon.animatedSprite = animatedSprite!;
@@ -44,8 +45,31 @@ export class DetallesPokemonComponent {
         });
       }
     });
+    this.pokemonsService.getPokemonEvolutionChain(id).subscribe((evolutionChain: any) => {
+      if (evolutionChain) {
+        this.pokemon!.evolucion = this.extractEvolutionDetails(evolutionChain.chain);
+
+        // Log adicional para verificar la evolución del Pokémon
+        console.log('Pokemon Evolution:', this.pokemon!.evolucion);
+      }
+    });
     this.cargarDebilidadesYFortalezas();
+   
+    this.pokemonsService.getPokemonEvolutionChain(id).subscribe((evolutionChain: any) => {
+      if (evolutionChain) {
+        this.pokemon!.evolucion = this.extractEvolutionDetails(evolutionChain.chain);
+        this.evolutionChain = [this.pokemon!, ...this.pokemon!.evolucion];
+        console.log('Evolution Chain:', this.evolutionChain);
+      }
+    });
+    console.log('Componente inicializado');
+    console.log('Pokemon Evolution:', this.pokemon?.detallesEvolucion?.evolvesTo);
   }
+  
+  ngAfterViewInit(): void {
+    console.log('Vista del componente inicializada');
+  }
+
 
   cargarSpriteAnimadoShiny(): void {
     if (this.pokemon) {
@@ -71,6 +95,45 @@ export class DetallesPokemonComponent {
     this.tipoService.getDebilidadesFortalezas().subscribe((data) => {
       this.debilidadesFortalezas = data;
     });
+  }
+
+  extractEvolutionDetails(chain: any): Pokemon[] {
+    const evolutionArray: Pokemon[] = [];
+    this.extractEvolutionDetailsRecursive(chain, evolutionArray);
+    return evolutionArray;
+  }
+
+  private extractEvolutionDetailsRecursive(chain: any, evolutionArray: Pokemon[]): void {
+    if (chain.evolves_to && chain.evolves_to.length > 0) {
+      for (const subChain of chain.evolves_to) {
+        const subEvolution: Pokemon = {
+          name: subChain.species.name,
+          number: this.pokemonsService.getPokemonNumberFromURL(subChain.species.url),
+          detallesEvolucion: {
+            trigger: subChain.evolution_details.length > 0 ? subChain.evolution_details[0].trigger.name : 'Unknown',
+            evolvesTo: []
+          },
+          image: undefined,
+          types: [],
+          weight: 0,
+          height: 0,
+          description: '',
+          stats: [],
+          moves: [],
+          idCadenaEvolutiva: 0,
+          triggerEvolucion: '',
+          evolucion: []
+        };
+  
+        evolutionArray.push(subEvolution);
+        this.extractEvolutionDetailsRecursive(subChain, subEvolution.evolucion);
+      }
+    }
+  }
+
+  verDetallesEvolucion(pokemon: Pokemon): void {
+    // Implementa la lógica para mostrar detalles de evolución según tus necesidades
+    console.log('Detalles de Evolución', pokemon.evolucion);
   }
   
   getDebilidades(type: string): string[] {

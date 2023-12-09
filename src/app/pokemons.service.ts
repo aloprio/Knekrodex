@@ -123,4 +123,14 @@ export class PokemonsService {
   private formatPokedexNumber(id: number): string {
     return id !== undefined ? id.toString().padStart(3, '0') : '';
   }
+  getPokemonEvolutionChain(id: number): Observable<any> {
+    return this.http.get(`https://pokeapi.co/api/v2/pokemon-species/${id}/`).pipe(
+      mergeMap((speciesData: any) => this.http.get(speciesData.evolution_chain.url))
+    );
+  }
+
+  getPokemonNumberFromURL(url: string): string {
+    const parts = url.split('/');
+    return parts[parts.length - 2];
+  }
 }

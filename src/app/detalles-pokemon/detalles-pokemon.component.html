@@ -100,4 +100,27 @@
       </tr>
     </tbody>
   </table>
+  <section *ngIf="pokemon?.evolucion && pokemon.evolucion.length > 0" class="evolution-section">
+    <h3>Evolution Chain</h3>
+    <ul>
+      <li *ngFor="let evolutionStep of pokemon.evolucion">
+        <p>{{ evolutionStep.name }} ({{ evolutionStep.number }})</p>
+        <p>Trigger: {{ evolutionStep.detallesEvolucion?.trigger || 'Unknown' }}</p>
+  
+        <!-- Show evolution details if available -->
+        <div *ngIf="evolutionStep.evolucion && evolutionStep.evolucion.length > 0">
+          <h4>Next Evolution</h4>
+          <ul>
+            <li *ngFor="let nextEvolutionStep of evolutionStep.evolucion">
+              <p>{{ nextEvolutionStep.name }} ({{ nextEvolutionStep.number }})</p>
+              <p>Trigger: {{ nextEvolutionStep.detallesEvolucion?.trigger || 'Unknown' }}</p>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </section>  
+  <ng-template #noEvolution>
+    <p>No evolution data available.</p>
+  </ng-template>
 </div>
