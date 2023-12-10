@@ -10,9 +10,9 @@ export interface Pokemon {
     description: string;
     stats: { name: string; value: number; }[];
     moves: PokemonMovimientos[];
-    idCadenaEvolutiva: number;  // ID de la cadena de evolución
-    triggerEvolucion: string;  // Desencadenante de evolución
-    evolucion: Pokemon[];  // Lista de Pokémon a los que evoluciona
+    idCadenaEvolutiva: number;
+    triggerEvolucion: string;
+    evolucion: Pokemon[];
     detallesEvolucion?: DetallesEvolucion;
 }
 export interface PokemonMovimientos {
