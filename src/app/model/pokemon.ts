@@ -28,4 +28,5 @@ export interface PokemonMovimientos {
 export interface DetallesEvolucion {
     trigger: string;
     evolvesTo: Pokemon[];
+    min_level?: number;
   }

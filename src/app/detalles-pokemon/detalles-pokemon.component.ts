@@ -93,18 +93,15 @@ export class DetallesPokemonComponent {
   }
 
   getVisibleEvolutions(evolutions: Pokemon[]): Pokemon[] {
-    // Limita la cantidad de evoluciones visibles a 2
     return evolutions.slice(0, 2);
   }
 
   cargarImagenEvolucion(target: Pokemon | undefined): void {
   if (target) {
-    // Cargar imagen animada
     this.pokemonsService.getPokemonSpriteAnimado(+target.number).subscribe((animatedSprite) => {
       target.animatedSprite = animatedSprite!;
     });
 
-    // Cargar imagen estática
     this.pokemonsService.getPokemonSpriteAnimado(+target.number).subscribe((image) => {
       target.image = image!;
     });
@@ -144,7 +141,7 @@ cargarCadenaEvolutiva(chain: any): void {
         number: this.pokemonsService.getPokemonNumberFromURL(chain.species.url),
         detallesEvolucion: {
           trigger: 'Unknown',
-          evolvesTo: [] // O el tipo adecuado para la estructura de evolución
+          evolvesTo: []
         },
         image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.pokemonsService.getPokemonNumberFromURL(chain.species.url)}.png`, // Asignar la URL de la imagen
         types: [],
@@ -157,12 +154,13 @@ cargarCadenaEvolutiva(chain: any): void {
         triggerEvolucion: '',
         evolucion: []
       };
-  
+
       if (chain.evolution_details && chain.evolution_details.length > 0) {
         const firstEvolutionDetail = chain.evolution_details[0];
   
         if (subEvolution.detallesEvolucion) {
           subEvolution.detallesEvolucion.trigger = this.getTriggerDescription(firstEvolutionDetail.trigger.name);
+          subEvolution.detallesEvolucion.min_level = firstEvolutionDetail.min_level;
         }
       }
   
@@ -170,24 +168,26 @@ cargarCadenaEvolutiva(chain: any): void {
   
       if (chain.evolves_to && chain.evolves_to.length > 0) {
         chain.evolves_to.forEach((evolvesTo: any) => {
-          this.extractEvolutionDetailsRecursive(evolvesTo, subEvolution.detallesEvolucion!.evolvesTo);
+          this.extractEvolutionDetailsRecursive(evolvesTo, evolutionArray);
         });
-      }
     }
   }
-//image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.pokemonsService.getPokemonNumberFromURL(chain.species.url)}.png`, // Asignar la URL de la imagen
+}
 
-  private getTriggerDescription(triggerName: string): string {
-    // Puedes personalizar esta función según las convenciones que prefieras
+getTriggerDescription(triggerName: string | undefined): string {
+    if (!triggerName) {
+      return 'Unkown';
+    }
+  
     switch (triggerName) {
       case 'level-up':
-        return 'Subir de nivel';
+        return 'Level up';
       case 'trade':
-        return 'Intercambio';
-      case 'object':
-        return 'objeto';
+        return 'Trade';
+      case 'use-item':
+        return 'Use item';
       default:
-        return 'Desconocido';
+        return triggerName;
     }
   }
   
@@ -196,16 +196,13 @@ cargarCadenaEvolutiva(chain: any): void {
     if (pokemon.evolucion) {
       console.log('Detalles de Evolución para', pokemon.name);
   
-      // Itera sobre cada paso de evolución
       pokemon.evolucion.forEach(evolutionStep => {
         console.log('Nombre:', evolutionStep.name);
         console.log('Número:', evolutionStep.number);
   
-        // Verifica si hay detalles de evolución disponibles
         if (evolutionStep.detallesEvolucion) {
           console.log('Detalles de Evolución:', evolutionStep.detallesEvolucion);
   
-          // Itera sobre las evoluciones dentro de la evolución actual
           console.log('Evoluciones:');
           evolutionStep.detallesEvolucion.evolvesTo.forEach(subEvolution => {
             console.log(subEvolution);

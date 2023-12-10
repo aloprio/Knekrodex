@@ -102,31 +102,32 @@
   </table>
   <section *ngIf="evolutionChain.length > 0" class="evolution-section">
     <h3>Evolution Chain</h3>
-    <div *ngFor="let evolutionStep of evolutionChain">
-      <h4>Evolución de {{ evolutionStep.name }}</h4>
-      <img [src]="evolutionStep.animatedSprite || evolutionStep.image" alt="Evolución de {{ evolutionStep.name }}">
-      <p>Trigger: {{ evolutionStep.detallesEvolucion?.trigger }}</p>
+    <div *ngFor="let evolutionStep of evolutionChain" class="evolution-step">
+      <h4>{{ evolutionStep.name }}</h4>
+      <img [src]="evolutionStep.animatedSprite || evolutionStep.image" alt="{{ evolutionStep.name }}">
+      
+      <p *ngIf="evolutionStep.detallesEvolucion?.trigger === 'Level up'">
+        Trigger: {{ getTriggerDescription(evolutionStep.detallesEvolucion?.trigger) }}
+        (Level {{ evolutionStep.detallesEvolucion?.min_level || 'unknown' }})
+      </p>
+      <p *ngIf="evolutionStep.detallesEvolucion?.trigger !== 'Level up'">
+        Trigger: {{ getTriggerDescription(evolutionStep.detallesEvolucion?.trigger) }}
+      </p>
   
-      <!-- Recorre las evoluciones dentro de la evolución actual -->
       <div *ngIf="evolutionStep.detallesEvolucion && evolutionStep.detallesEvolucion.evolvesTo && evolutionStep.detallesEvolucion.evolvesTo.length > 0">
-        <h5>Evoluciones:</h5>
-        <div *ngFor="let subEvolution of evolutionStep.detallesEvolucion.evolvesTo">
-          <img [src]="subEvolution.animatedSprite || subEvolution.image" alt="Evolución de {{ subEvolution.name }}">
-          <p>Trigger: {{ subEvolution.detallesEvolucion?.trigger }}</p>
-  
-          <!-- Recorre los triggers de evolución dentro de la evolución actual -->
-          <div *ngIf="subEvolution.detallesEvolucion && subEvolution.detallesEvolucion.evolvesTo">
-            <div *ngFor="let trigger of subEvolution.detallesEvolucion.evolvesTo">
-              <p>{{ trigger.detallesEvolucion?.trigger }}</p>
-              {{ trigger | json }}
-            </div>
-          </div>
-  
+        <h5>Evolutions:</h5>
+        <div *ngFor="let subEvolution of evolutionStep.detallesEvolucion?.evolvesTo" class="sub-evolution">
+          <img [src]="subEvolution.animatedSprite || subEvolution.image" alt="{{ subEvolution.name }}">
+          
+          <p *ngIf="subEvolution.detallesEvolucion?.trigger === 'Level up'">
+            Trigger: {{ getTriggerDescription(subEvolution.detallesEvolucion?.trigger) }}
+            (Level {{ subEvolution.detallesEvolucion?.min_level || 'unknown' }})
+          </p>
+          <p *ngIf="subEvolution.detallesEvolucion?.trigger !== 'Level up'">
+            Trigger: {{ getTriggerDescription(subEvolution.detallesEvolucion?.trigger) }}
+          </p>
         </div>
       </div>
     </div>
   </section>
-  <ng-template #noEvolution>
-    <p>No evolution data available.</p>
-  </ng-template>
 </div>
