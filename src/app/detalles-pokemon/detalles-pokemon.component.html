@@ -100,26 +100,23 @@
       </tr>
     </tbody>
   </table>
-  <section *ngIf="pokemon?.evolucion && pokemon.evolucion.length > 0" class="evolution-section">
+  <section *ngIf="evolutionChain.length > 0" class="evolution-section">
     <h3>Evolution Chain</h3>
-    <ul>
-      <li *ngFor="let evolutionStep of pokemon.evolucion">
-        <p>{{ evolutionStep.name }} ({{ evolutionStep.number }})</p>
-        <p>Trigger: {{ evolutionStep.detallesEvolucion?.trigger || 'Unknown' }}</p>
+    <div *ngFor="let evolutionStep of evolutionChain">
+      <h4>Evolución de {{ evolutionStep.name }}</h4>
+      <img [src]="evolutionStep.animatedSprite || evolutionStep.image" alt="Evolución de {{ evolutionStep.name }}">
+      <p>Trigger: {{ evolutionStep.detallesEvolucion?.trigger }}</p>
   
-        <!-- Show evolution details if available -->
-        <div *ngIf="evolutionStep.evolucion && evolutionStep.evolucion.length > 0">
-          <h4>Next Evolution</h4>
-          <ul>
-            <li *ngFor="let nextEvolutionStep of evolutionStep.evolucion">
-              <p>{{ nextEvolutionStep.name }} ({{ nextEvolutionStep.number }})</p>
-              <p>Trigger: {{ nextEvolutionStep.detallesEvolucion?.trigger || 'Unknown' }}</p>
-            </li>
-          </ul>
+      <!-- Recorre las evoluciones dentro de la evolución actual -->
+      <div *ngIf="evolutionStep.detallesEvolucion && evolutionStep.detallesEvolucion.evolvesTo && evolutionStep.detallesEvolucion.evolvesTo.length > 0">
+        <h5>Evoluciones:</h5>
+        <div *ngFor="let subEvolution of evolutionStep.detallesEvolucion?.evolvesTo">
+          <img [src]="subEvolution.animatedSprite || subEvolution.image" alt="Evolución de {{ subEvolution.name }}">
+          <p>Trigger: {{ subEvolution.detallesEvolucion?.trigger }}</p>
         </div>
-      </li>
-    </ul>
-  </section>  
+      </div>
+    </div>
+  </section>
   <ng-template #noEvolution>
     <p>No evolution data available.</p>
   </ng-template>
