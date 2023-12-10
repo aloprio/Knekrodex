@@ -110,9 +110,18 @@
       <!-- Recorre las evoluciones dentro de la evolución actual -->
       <div *ngIf="evolutionStep.detallesEvolucion && evolutionStep.detallesEvolucion.evolvesTo && evolutionStep.detallesEvolucion.evolvesTo.length > 0">
         <h5>Evoluciones:</h5>
-        <div *ngFor="let subEvolution of evolutionStep.detallesEvolucion?.evolvesTo">
+        <div *ngFor="let subEvolution of evolutionStep.detallesEvolucion.evolvesTo">
           <img [src]="subEvolution.animatedSprite || subEvolution.image" alt="Evolución de {{ subEvolution.name }}">
           <p>Trigger: {{ subEvolution.detallesEvolucion?.trigger }}</p>
+  
+          <!-- Recorre los triggers de evolución dentro de la evolución actual -->
+          <div *ngIf="subEvolution.detallesEvolucion && subEvolution.detallesEvolucion.evolvesTo">
+            <div *ngFor="let trigger of subEvolution.detallesEvolucion.evolvesTo">
+              <p>{{ trigger.detallesEvolucion?.trigger }}</p>
+              {{ trigger | json }}
+            </div>
+          </div>
+  
         </div>
       </div>
     </div>

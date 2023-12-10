@@ -144,7 +144,7 @@ cargarCadenaEvolutiva(chain: any): void {
         number: this.pokemonsService.getPokemonNumberFromURL(chain.species.url),
         detallesEvolucion: {
           trigger: 'Unknown',
-          evolvesTo: []
+          evolvesTo: [] // O el tipo adecuado para la estructura de evolución
         },
         image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.pokemonsService.getPokemonNumberFromURL(chain.species.url)}.png`, // Asignar la URL de la imagen
         types: [],
@@ -170,11 +170,12 @@ cargarCadenaEvolutiva(chain: any): void {
   
       if (chain.evolves_to && chain.evolves_to.length > 0) {
         chain.evolves_to.forEach((evolvesTo: any) => {
-          this.extractEvolutionDetailsRecursive(evolvesTo, evolutionArray);
+          this.extractEvolutionDetailsRecursive(evolvesTo, subEvolution.detallesEvolucion!.evolvesTo);
         });
       }
     }
-  } 
+  }
+//image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.pokemonsService.getPokemonNumberFromURL(chain.species.url)}.png`, // Asignar la URL de la imagen
 
   private getTriggerDescription(triggerName: string): string {
     // Puedes personalizar esta función según las convenciones que prefieras

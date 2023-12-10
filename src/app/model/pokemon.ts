@@ -25,7 +25,7 @@ export interface PokemonMovimientos {
     levelMove: number;
   }
 
-  interface DetallesEvolucion {
+export interface DetallesEvolucion {
     trigger: string;
     evolvesTo: Pokemon[];
   }
