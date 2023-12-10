@@ -50,10 +50,8 @@ export class DetallesPokemonComponent {
         this.pokemon!.evolucion = this.extractEvolutionDetails(evolutionChain.chain);
         this.evolutionChain = [...this.pokemon!.evolucion];
 
-        // Llama a la función para mostrar detalles de evolución
         this.verDetallesEvolucion(this.pokemon!);
 
-        // Cargamos la imagen animada de la evolución más cercana
         this.cargarImagenEvolucion(this.pokemon!.evolucion[0]);
       }
     });
@@ -160,7 +158,11 @@ cargarCadenaEvolutiva(chain: any): void {
   
         if (subEvolution.detallesEvolucion) {
           subEvolution.detallesEvolucion.trigger = this.getTriggerDescription(firstEvolutionDetail.trigger.name);
-          subEvolution.detallesEvolucion.min_level = firstEvolutionDetail.min_level;
+          if (firstEvolutionDetail.trigger.name === 'use-item') {
+            subEvolution.detallesEvolucion.trigger += ` (${firstEvolutionDetail.item.name})`;
+          } else {
+            subEvolution.detallesEvolucion.min_level = firstEvolutionDetail.min_level;
+          }
         }
       }
   
