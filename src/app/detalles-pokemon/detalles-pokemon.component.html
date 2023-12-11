@@ -106,7 +106,7 @@
     <img [src]="evolution.species.image" alt="Imagen {{ evolution.species.name }}">
     <div *ngFor="let trigger of evolution.evolution_details">
       <p>Type: {{ trigger.type }}</p>
-      <p>Description: {{ trigger.description ? trigger.description : 'No description' }}</p>
+      <p>Description: {{ trigger.description }}</p>
     </div>
   </div>
   </section>

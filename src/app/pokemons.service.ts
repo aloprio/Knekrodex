@@ -185,7 +185,7 @@ export class PokemonsService {
   
   
   
-  private getTriggerDescription(trigger: Trigger): string {
+  private getTriggerDescription(trigger: Trigger): any {
     switch (trigger.type) {
       case "level-up":
         console.log('Level-up trigger. Level:', trigger.level);
@@ -205,10 +205,6 @@ export class PokemonsService {
         return `Certain move: Learning the move: (${trigger.move}).`;
       case "level-up-with-item":
         return `Level up with object: Level up to (${trigger.level}) with item (${trigger.item}).`;
-      default:
-        console.log('Unknown tigger type:', trigger.type);
-        console.log('Unknown trigger:', trigger);
-        return 'Unknown';
     }
   }
 
