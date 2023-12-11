@@ -33,7 +33,7 @@ export interface EvolutionChain {
 
 export interface Trigger {
   type: string;
-  description: any;
+  description: string;
   level?: number;
   item?: string;
   happiness?: number;

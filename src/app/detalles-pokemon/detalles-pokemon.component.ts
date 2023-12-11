@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PokemonsService } from '../pokemons.service';
 import { tipoService } from '../tipo.servise';
 import { Pokemon} from '../model/pokemon';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-detalles-pokemon',
@@ -22,36 +23,26 @@ export class DetallesPokemonComponent implements OnInit {
 
   ngOnInit(): void {
     const id = +this.route.snapshot.params['id'];
-  
+
     this.pokemonsService.getPokemonUnico(id).subscribe((pokemon) => {
       if (pokemon) {
         this.pokemon = { ...pokemon, detallesEvolucion: [] };
-        this.pokemonsService.getPokemonSpriteAnimado(id).subscribe((animatedSprite) => {
+
+        forkJoin([
+          this.pokemonsService.getPokemonSpriteAnimado(id),
+          this.pokemonsService.getPokemonMovimientosPorNivel(id),
+          this.pokemonsService.getPokemonMovimientosPorMTMO(id),
+        ]).subscribe(([animatedSprite, movesByLevel, movesByMTMO]) => {
           if (this.pokemon) {
             this.pokemon.animatedSprite = animatedSprite!;
+            this.pokemon.moves = movesByLevel || movesByMTMO;
+
+            this.cargarCadenaEvolutiva(id);
           }
-  
-          this.pokemonsService.getPokemonMovimientosPorNivel(id).subscribe((moves) => {
-            if (this.pokemon) this.pokemon.moves = moves;
-          });
-  
-          this.pokemonsService.getPokemonMovimientosPorMTMO(id).subscribe((moves) => {
-            if (this.pokemon) this.pokemon.moves = moves;
-          });
-          this.pokemonsService.getPokemonEvolutionChain(id).subscribe((evolutionChain) => {
-            if (this.pokemon && this.pokemon.detallesEvolucion) {
-              this.pokemon.detallesEvolucion = evolutionChain.evolutionDetails;
-              this.pokemon.detallesEvolucion.forEach((evolution) => {
-                const evolutionId = parseInt(this.pokemonsService.getPokemonNumberFromURL(evolution.species.url));
-                this.pokemonsService.getPokemonSpriteAnimado(evolutionId).subscribe((sprite) => {
-                  evolution.species.image = sprite;
-                });
-              });
-            }
-          });
         });
       }
     });
+    
     this.cargarDebilidadesYFortalezas();
   }
   
@@ -74,6 +65,21 @@ export class DetallesPokemonComponent implements OnInit {
       }
       this.isShiny = !this.isShiny;
     }
+  }
+
+  cargarCadenaEvolutiva(id: number): void {
+    this.pokemonsService.getPokemonEvolutionChain(id).subscribe((evolutionChain) => {
+      if (this.pokemon && evolutionChain && evolutionChain.evolutionDetails) {
+        this.pokemon.detallesEvolucion = evolutionChain.evolutionDetails;
+
+        this.pokemon.detallesEvolucion.forEach((evolution) => {
+          const evolutionId = parseInt(this.pokemonsService.getPokemonNumberFromURL(evolution.species.url));
+          this.pokemonsService.getPokemonSpriteAnimado(evolutionId).subscribe((sprite) => {
+            evolution.species.image = sprite;
+          });
+        });
+      }
+    });
   }
 
   cargarDebilidadesYFortalezas(): void {
