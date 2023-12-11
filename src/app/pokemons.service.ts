@@ -18,11 +18,13 @@ export class PokemonsService {
     for (let i = offset + 1; i <= offset + limit; i++) {
       const peticion = this.http.get(`${this.apiURL}/${i}`).pipe(
         map((data: any) => ({
+          
           image: data.sprites?.front_default,
           number: this.formatPokedexNumber(data.id),
           types: data.types.map((tipo: any) => tipo.type.name),
           name: data.name
         } as Pokemon))
+
       );
       peticionesApi.push(peticion);
     }
@@ -45,10 +47,12 @@ export class PokemonsService {
   
         return this.http.get(`https://pokeapi.co/api/v2/pokemon-species/${id}`).pipe(
           map((speciesData: any) => {
+
             const descripcion = speciesData.flavor_text_entries;
             const descripcionEnIngles = descripcion.find((entry: any) => entry.language.name === 'en');
             pokemon.description = descripcionEnIngles ? descripcionEnIngles.flavor_text : '';
             return pokemon;
+
           })
         );
       })
@@ -66,6 +70,7 @@ export class PokemonsService {
           this.http.get(move.move.url).pipe(
             map((moveDetails: any) => {
               return {
+
                 methodMove: move.version_group_details[0].move_learn_method.name,
                 nameMove: moveDetails.name,
                 typeMove: moveDetails.type.name,
@@ -74,6 +79,7 @@ export class PokemonsService {
                 accuracyMove: moveDetails.accuracy,
                 levelMove: move.version_group_details[0].level_learned_at
               } as PokemonMovimientos;
+
             })
           )
         );
@@ -92,6 +98,7 @@ export class PokemonsService {
         const movimientosSolicitud: Observable<PokemonMovimientos>[] = movimientosDatos.map((move: any) =>
           this.http.get(move.move.url).pipe(
             map((moveDetails: any) => {
+
               return {
                 methodMove: move.version_group_details[0].move_learn_method.name,
                 nameMove: moveDetails.name,
@@ -100,10 +107,13 @@ export class PokemonsService {
                 powerMove: moveDetails.power,
                 accuracyMove: moveDetails.accuracy,
               } as PokemonMovimientos;
+
             })
           )
         );
+
         return forkJoin(movimientosSolicitud);
+        
       })
     );
   }
@@ -129,9 +139,11 @@ export class PokemonsService {
       mergeMap((speciesData: any) => this.http.get(speciesData.evolution_chain.url)),
       map((evolutionChain: any) => {
         return {
+
           id: evolutionChain.id,
           evolutionDetails: this.mapToEvolutionDetails(evolutionChain.chain),
         } as EvolutionChain;
+
       })
     );
   }
@@ -145,7 +157,6 @@ export class PokemonsService {
           species: chain.species,
           evolves_to: Array.isArray(chain.evolves_to) ? [] : chain.evolves_to,
           evolution_details: chain.evolution_details.map((detail: any) => {
-            const triggerType = detail.trigger && detail.trigger.name ? detail.trigger.name : 'unknown';
 
             console.log('Trigger:', detail.trigger);
 
