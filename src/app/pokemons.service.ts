@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin, map, mergeMap } from 'rxjs';
-import { Pokemon, PokemonMovimientos } from './model/pokemon';
+import { EvolutionChain, EvolutionDetails, Pokemon, PokemonMovimientos, Trigger } from './model/pokemon';
+import { trigger } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { Pokemon, PokemonMovimientos } from './model/pokemon';
 export class PokemonsService {
 
   private apiURL: string ='https://pokeapi.co/api/v2/pokemon';
+  sanitizer: any;
 
   constructor(private http: HttpClient) { }
 
@@ -123,10 +125,91 @@ export class PokemonsService {
   private formatPokedexNumber(id: number): string {
     return id !== undefined ? id.toString().padStart(3, '0') : '';
   }
-  getPokemonEvolutionChain(id: number): Observable<any> {
+
+  getPokemonEvolutionChain(id: number): Observable<EvolutionChain> {
     return this.http.get(`https://pokeapi.co/api/v2/pokemon-species/${id}/`).pipe(
-      mergeMap((speciesData: any) => this.http.get(speciesData.evolution_chain.url))
+      mergeMap((speciesData: any) => this.http.get(speciesData.evolution_chain.url)),
+      map((evolutionChain: any) => {
+        return {
+          id: evolutionChain.id,
+          evolutionDetails: this.mapToEvolutionDetails(evolutionChain.chain),
+        } as EvolutionChain;
+      })
     );
+  }
+  
+  private mapToEvolutionDetails(chain: any): EvolutionDetails[] {
+    const evolutionDetailsArray: EvolutionDetails[] = [];
+  
+    const traverseChain = (chain: any) => {
+      if (chain && chain.species && chain.evolution_details) {
+        const evolutionDetails: EvolutionDetails = {
+          species: chain.species,
+          evolves_to: Array.isArray(chain.evolves_to) ? [] : chain.evolves_to,
+          evolution_details: chain.evolution_details.map((detail: any) => {
+  
+            console.log('Trigger:', detail.trigger);
+
+            return {
+              type: detail.trigger.name,
+              description: this.getTriggerDescription(detail),
+              level: detail.min_level,
+              item: detail.item ? detail.item.name : undefined,
+              happiness: detail.happiness,
+              time_of_day: detail.time_of_day,
+              gender: detail.gender,
+              move: detail.move,
+            } as Trigger;
+          }),
+        };
+        
+        evolutionDetailsArray.push(evolutionDetails);
+        
+        console.log('Detalles de la evolucion: ',evolutionDetails)
+
+        if (Array.isArray(chain.evolves_to)) {
+          chain.evolves_to.forEach((evolvesTo: any) => {
+            traverseChain(evolvesTo);
+          });
+        }
+      }
+    };
+  
+    traverseChain(chain);
+  
+    console.log(evolutionDetailsArray);
+  
+    return evolutionDetailsArray;
+  }
+  
+  
+  
+  
+  private getTriggerDescription(trigger: Trigger): string {
+    switch (trigger.type) {
+      case "level-up":
+        console.log('Level-up trigger. Level:', trigger.level);
+        return `Level up: at level ${trigger.level}.`;
+      case "use-item":
+        console.log('Evolution stone: with stone', trigger.item);
+        return `Evolution stone: with stone (${trigger.item}).`;
+      case "high-friendship":
+        return `Friendship: with happiness: (${trigger.happiness})`;
+      case "trade":
+        return `Trade: Trading with another trainer.`;
+      case "time-of-day":
+        return `Time of the day: At time: (${trigger.time_of_day})`;
+      case "gender":
+        return `Gender: With gender: (${trigger.gender})`;
+      case 'know-move':
+        return `Certain move: Learning the move: (${trigger.move}).`;
+      case "level-up-with-item":
+        return `Level up with object: Level up to (${trigger.level}) with item (${trigger.item}).`;
+      default:
+        console.log('Unknown tigger type:', trigger.type);
+        console.log('Unknown trigger:', trigger);
+        return 'Unknown';
+    }
   }
 
   getPokemonNumberFromURL(url: string): string {

@@ -208,12 +208,11 @@ ul li {
     height: 150px;
   }
 
-  .stats-table table {
-    width: 100%;
-    min-width: 0;
-  }
-
+  .stats-table table,
+  .type-table,
   .moves-container table {
     width: 100%;
+    min-width: 0;
+    overflow-x: auto;
   }
 }

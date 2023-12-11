@@ -1,19 +1,18 @@
-import { Component } from '@angular/core';
-import { Pokemon } from '../model/pokemon';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PokemonsService } from '../pokemons.service';
 import { tipoService } from '../tipo.servise';
+import { Pokemon} from '../model/pokemon';
 
 @Component({
   selector: 'app-detalles-pokemon',
   templateUrl: './detalles-pokemon.component.html',
   styleUrls: ['./detalles-pokemon.component.css']
 })
-export class DetallesPokemonComponent {
+export class DetallesPokemonComponent implements OnInit {
   pokemon: Pokemon | undefined;
   debilidadesFortalezas: any = {};
   isShiny = false;
-  evolutionChain: Pokemon[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -26,49 +25,36 @@ export class DetallesPokemonComponent {
   
     this.pokemonsService.getPokemonUnico(id).subscribe((pokemon) => {
       if (pokemon) {
-        this.pokemon = pokemon;
-        console.log('Pokemon:', this.pokemon);
+        this.pokemon = { ...pokemon, detallesEvolucion: [] };
         this.pokemonsService.getPokemonSpriteAnimado(id).subscribe((animatedSprite) => {
           if (this.pokemon) {
             this.pokemon.animatedSprite = animatedSprite!;
           }
-
-        this.pokemonsService.getPokemonMovimientosPorNivel(id).subscribe((moves) => {
-          if (this.pokemon)
-          this.pokemon.moves = moves;
+  
+          this.pokemonsService.getPokemonMovimientosPorNivel(id).subscribe((moves) => {
+            if (this.pokemon) this.pokemon.moves = moves;
           });
-
-        this.pokemonsService.getPokemonMovimientosPorMTMO(id).subscribe((moves) => {
-          if (this.pokemon)
-          this.pokemon.moves = moves;
+  
+          this.pokemonsService.getPokemonMovimientosPorMTMO(id).subscribe((moves) => {
+            if (this.pokemon) this.pokemon.moves = moves;
+          });
+          this.pokemonsService.getPokemonEvolutionChain(id).subscribe((evolutionChain) => {
+            if (this.pokemon && this.pokemon.detallesEvolucion) {
+              this.pokemon.detallesEvolucion = evolutionChain.evolutionDetails;
+              this.pokemon.detallesEvolucion.forEach((evolution) => {
+                const evolutionId = parseInt(this.pokemonsService.getPokemonNumberFromURL(evolution.species.url));
+                this.pokemonsService.getPokemonSpriteAnimado(evolutionId).subscribe((sprite) => {
+                  evolution.species.image = sprite;
+                });
+              });
+            }
           });
         });
       }
     });
-    this.pokemonsService.getPokemonEvolutionChain(id).subscribe((evolutionChain) => {
-      if (evolutionChain) {
-        this.pokemon!.evolucion = this.extractEvolutionDetails(evolutionChain.chain);
-        this.evolutionChain = [...this.pokemon!.evolucion];
-
-        this.verDetallesEvolucion(this.pokemon!);
-
-        this.cargarImagenEvolucion(this.pokemon!.evolucion[0]);
-      }
-    });
-
     this.cargarDebilidadesYFortalezas();
-    if (this.pokemon?.evolucion) {
-      this.cargarCadenaEvolutiva(this.pokemon.evolucion);
-      this.cargarImagenesEvolucion(this.pokemon.evolucion);
-    }
-    console.log('Componente inicializado');
-    console.log('Pokemon Evolution:', this.pokemon?.detallesEvolucion?.evolvesTo);
   }
   
-  ngAfterViewInit(): void {
-    console.log('Vista del componente inicializada');
-  }
-
 
   cargarSpriteAnimadoShiny(): void {
     if (this.pokemon) {
@@ -76,13 +62,13 @@ export class DetallesPokemonComponent {
       if (this.isShiny) {
         this.pokemonsService.getPokemonSpriteAnimado(id).subscribe((animatedSprite) => {
           if (this.pokemon) {
-          this.pokemon.animatedSprite = animatedSprite!;
+            this.pokemon.animatedSprite = animatedSprite!;
           }
         });
       } else {
         this.pokemonsService.getPokemonSpriteAnimadoShiny(id).subscribe((animatedSpriteShiny) => {
-          if (this.pokemon){
-          this.pokemon.animatedSprite = animatedSpriteShiny!;
+          if (this.pokemon) {
+            this.pokemon.animatedSprite = animatedSpriteShiny!;
           }
         });
       }
@@ -90,136 +76,11 @@ export class DetallesPokemonComponent {
     }
   }
 
-  getVisibleEvolutions(evolutions: Pokemon[]): Pokemon[] {
-    return evolutions.slice(0, 2);
-  }
-
-  cargarImagenEvolucion(target: Pokemon | undefined): void {
-  if (target) {
-    this.pokemonsService.getPokemonSpriteAnimado(+target.number).subscribe((animatedSprite) => {
-      target.animatedSprite = animatedSprite!;
-    });
-
-    this.pokemonsService.getPokemonSpriteAnimado(+target.number).subscribe((image) => {
-      target.image = image!;
-    });
-  }
-}
-
-cargarImagenesEvolucion(evolucion: Pokemon[] | undefined): void {
-  if (evolucion) {
-    evolucion.forEach(pokemon => {
-      this.cargarImagenEvolucion(pokemon);
-    });
-  }
-}
-
-cargarCadenaEvolutiva(chain: any): void {
-  if (chain) {
-    this.evolutionChain = this.extractEvolutionDetails(chain);
-  }
-}
-
   cargarDebilidadesYFortalezas(): void {
     this.tipoService.getDebilidadesFortalezas().subscribe((data) => {
       this.debilidadesFortalezas = data;
     });
   }
-
-  extractEvolutionDetails(chain: any): Pokemon[] {
-    const evolutionArray: Pokemon[] = [];
-    this.extractEvolutionDetailsRecursive(chain, evolutionArray);
-    return evolutionArray;
-  }
-
-  private extractEvolutionDetailsRecursive(chain: any, evolutionArray: Pokemon[]): void {
-    if (chain.species) {
-      const subEvolution: Pokemon = {
-        name: chain.species.name,
-        number: this.pokemonsService.getPokemonNumberFromURL(chain.species.url),
-        detallesEvolucion: {
-          trigger: 'Unknown',
-          evolvesTo: []
-        },
-        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.pokemonsService.getPokemonNumberFromURL(chain.species.url)}.png`, // Asignar la URL de la imagen
-        types: [],
-        weight: 0,
-        height: 0,
-        description: '',
-        stats: [],
-        moves: [],
-        idCadenaEvolutiva: 0,
-        triggerEvolucion: '',
-        evolucion: []
-      };
-
-      if (chain.evolution_details && chain.evolution_details.length > 0) {
-        const firstEvolutionDetail = chain.evolution_details[0];
-  
-        if (subEvolution.detallesEvolucion) {
-          subEvolution.detallesEvolucion.trigger = this.getTriggerDescription(firstEvolutionDetail.trigger.name);
-          if (firstEvolutionDetail.trigger.name === 'use-item') {
-            subEvolution.detallesEvolucion.trigger += ` (${firstEvolutionDetail.item.name})`;
-          } else {
-            subEvolution.detallesEvolucion.min_level = firstEvolutionDetail.min_level;
-          }
-        }
-      }
-  
-      evolutionArray.push(subEvolution);
-  
-      if (chain.evolves_to && chain.evolves_to.length > 0) {
-        chain.evolves_to.forEach((evolvesTo: any) => {
-          this.extractEvolutionDetailsRecursive(evolvesTo, evolutionArray);
-        });
-    }
-  }
-}
-
-getTriggerDescription(triggerName: string | undefined): string {
-    if (!triggerName) {
-      return 'Unkown';
-    }
-  
-    switch (triggerName) {
-      case 'level-up':
-        return 'Level up';
-      case 'trade':
-        return 'Trade';
-      case 'use-item':
-        return 'Use item';
-      default:
-        return triggerName;
-    }
-  }
-  
-
-  verDetallesEvolucion(pokemon: Pokemon): void {
-    if (pokemon.evolucion) {
-      console.log('Detalles de Evolución para', pokemon.name);
-  
-      pokemon.evolucion.forEach(evolutionStep => {
-        console.log('Nombre:', evolutionStep.name);
-        console.log('Número:', evolutionStep.number);
-  
-        if (evolutionStep.detallesEvolucion) {
-          console.log('Detalles de Evolución:', evolutionStep.detallesEvolucion);
-  
-          console.log('Evoluciones:');
-          evolutionStep.detallesEvolucion.evolvesTo.forEach(subEvolution => {
-            console.log(subEvolution);
-          });
-        } else {
-          console.log('No hay detalles de evolución disponibles para', evolutionStep.name);
-        }
-  
-        console.log('--------------------------------------------');
-      });
-    } else {
-      console.log('No hay detalles de evolución disponibles para', pokemon.name);
-    }
-  }
-  
 
   getDebilidades(type: string): string[] {
     return this.debilidadesFortalezas[type] ? this.debilidadesFortalezas[type].x2 : [];

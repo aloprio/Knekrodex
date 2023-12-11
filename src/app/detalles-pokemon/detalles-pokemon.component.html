@@ -100,34 +100,14 @@
       </tr>
     </tbody>
   </table>
-  <section *ngIf="evolutionChain.length > 0" class="evolution-section">
-    <h3>Evolution Chain</h3>
-    <div *ngFor="let evolutionStep of evolutionChain" class="evolution-step">
-      <h4>{{ evolutionStep.name }}</h4>
-      <img [src]="evolutionStep.animatedSprite || evolutionStep.image" alt="{{ evolutionStep.name }}">
-      
-      <p *ngIf="evolutionStep.detallesEvolucion?.trigger === 'Level up'">
-        Trigger: {{ getTriggerDescription(evolutionStep.detallesEvolucion?.trigger) }}
-        (Level {{ evolutionStep.detallesEvolucion?.min_level || 'unknown' }})
-      </p>
-      <p *ngIf="evolutionStep.detallesEvolucion?.trigger !== 'Level up'">
-        Trigger: {{ getTriggerDescription(evolutionStep.detallesEvolucion?.trigger) }}
-      </p>
-  
-      <div *ngIf="evolutionStep.detallesEvolucion && evolutionStep.detallesEvolucion.evolvesTo && evolutionStep.detallesEvolucion.evolvesTo.length > 0">
-        <h5>Evolutions:</h5>
-        <div *ngFor="let subEvolution of evolutionStep.detallesEvolucion?.evolvesTo" class="sub-evolution">
-          <img [src]="subEvolution.animatedSprite || subEvolution.image" alt="{{ subEvolution.name }}">
-          
-          <p *ngIf="subEvolution.detallesEvolucion?.trigger === 'Level up'">
-            Trigger: {{ getTriggerDescription(subEvolution.detallesEvolucion?.trigger) }}
-            (Level {{ subEvolution.detallesEvolucion?.min_level || 'unknown' }})
-          </p>
-          <p *ngIf="subEvolution.detallesEvolucion?.trigger !== 'Level up'">
-            Trigger: {{ getTriggerDescription(subEvolution.detallesEvolucion?.trigger) }}
-          </p>
-        </div>
-      </div>
+  <section class="evolution-chain">
+  <div *ngFor="let evolution of pokemon.detallesEvolucion">
+    <p>{{ evolution.species.name }}</p>
+    <img [src]="evolution.species.image" alt="Imagen {{ evolution.species.name }}">
+    <div *ngFor="let trigger of evolution.evolution_details">
+      <p>Type: {{ trigger.type }}</p>
+      <p>Description: {{ trigger.description ? trigger.description : 'No description' }}</p>
     </div>
+  </div>
   </section>
 </div>
