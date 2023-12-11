@@ -5,6 +5,12 @@ section {
   font-family: 'Press Start 2P', sans-serif;
 }
 
+.filtro-seccion {
+  border-bottom: 4px solid black;
+  padding-bottom: 10px;
+  background-color: rgb(70, 69, 69);
+}
+
 .pokemon-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

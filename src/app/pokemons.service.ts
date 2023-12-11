@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin, map, mergeMap } from 'rxjs';
 import { EvolutionChain, EvolutionDetails, Pokemon, PokemonMovimientos, Trigger } from './model/pokemon';
-import { trigger } from '@angular/animations';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -147,7 +145,8 @@ export class PokemonsService {
           species: chain.species,
           evolves_to: Array.isArray(chain.evolves_to) ? [] : chain.evolves_to,
           evolution_details: chain.evolution_details.map((detail: any) => {
-  
+            const triggerType = detail.trigger && detail.trigger.name ? detail.trigger.name : 'unknown';
+
             console.log('Trigger:', detail.trigger);
 
             return {
@@ -186,6 +185,8 @@ export class PokemonsService {
   
   
   private getTriggerDescription(trigger: Trigger): string {
+
+    console.log('Trigger type:', trigger.type);
     switch (trigger.type) {
       case "level-up":
         console.log('Level-up trigger. Level:', trigger.level);
